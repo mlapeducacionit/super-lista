@@ -29,3 +29,8 @@ npm run build # -> crea la carpeta dist en el directorio raíz
 ```sh
 npm run preview
 ```
+
+## Servicio para subir proyecto a la nube
+
+<https://app.netlify.com/>
+
