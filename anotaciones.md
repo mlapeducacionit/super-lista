@@ -34,3 +34,7 @@ npm run preview
 
 <https://app.netlify.com/>
 
+## Manifiesto (Manifest)
+Es un archivo JSON de configuración de nuestra PWA
+
+<https://developer.mozilla.org/es/docs/Web/Manifest>
