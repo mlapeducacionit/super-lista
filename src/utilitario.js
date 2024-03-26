@@ -109,4 +109,61 @@ function renderLista() {
 
 }
 
-renderLista()
+/* --------- */
+/* LISTENERS */
+/* --------- */
+
+function configurarListener() {
+
+    /* Ingreso del producto nuevo */
+    const entradaProducto = document.getElementById('btn-entrada-producto')
+    //console.log(entradaProducto)
+
+    entradaProducto.addEventListener('click', () => {
+        console.log('btn-entrada-producto')
+
+        let input = document.getElementById('ingreso-producto')
+
+        let producto = input.value /* value -> lo que escribió el usuario */
+        console.log(producto)
+
+        if ( producto ) {
+            const objProdu = {
+                nombre: producto,
+                cantidad: 1,
+                precio: 0
+            }
+            listaProductos.push(objProdu)
+            renderLista()
+            input.value = null
+        }
+
+    })
+
+    /* Borrado total de productos */
+
+    const btnBorrarProductos = document.getElementById('btn-borrar-productos')
+    console.log(btnBorrarProductos)
+
+    btnBorrarProductos.addEventListener('click', () => {
+        console.log('btn-borrar-productos')
+
+        const resultado = confirm('¿Desea borrar todos los productos?')
+        if ( resultado ) {
+            listaProductos = []
+            renderLista()
+        } else {
+            console.log('No borró ningún producto')
+        }
+    })
+
+}
+
+function start() {
+    console.log('Arracando la aplicación')
+
+    configurarListener()
+    renderLista()
+}
+
+start()
