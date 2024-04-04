@@ -15,3 +15,16 @@
 
 <https://app-manifest.firebaseapp.com/>
 <https://manifest-gen.netlify.app/>
+
+## Para editar imagenes
+
+<https://www.gimp.org/>
+<https://pixlr.com/es/>
+
+## Service Worker (Corazon de una PWA)
+
+<https://developer.mozilla.org/es/docs/Web/API/Service_Worker_API>
+<https://caniuse.com/?search=serviceworker>
+
+![diagrama-sw](_ref/Service-Worker03.png)
+

@@ -159,9 +159,32 @@ function configurarListener() {
 
 }
 
+/* -------------------------- */
+/* Registro de Service Worker */
+/* -------------------------- */
+
+function registrarServiceWorker() {
+    if ( 'serviceWorker' in navigator ) {
+        console.log('Puedo utilizar el service worker')
+
+        // this.navigator.serviceWorker.register('../sw.js') // petición asincronica (Devuelve promesa)
+        window.navigator.serviceWorker.register('../sw.js') // petición asincronica (Devuelve promesa)
+            .then( reg => {
+                console.log('El service worker se registró correcatmente', reg)
+            })
+            .catch( error => {
+                console.log('Error al registrar el service worker', error)
+            })
+
+    } else {
+        console.error('serviceWorker no está disponible en el navegador')
+    }
+}
+
 function start() {
     console.log('Arracando la aplicación')
 
+    registrarServiceWorker()
     configurarListener()
     renderLista()
 }
