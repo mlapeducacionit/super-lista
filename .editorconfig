@@ -14,7 +14,7 @@ insert_final_newline = true
 charset = utf-8
 
 # 2 space indentation
-[*.{html,css,js}]
+[*.{html,css,js,hbs}]
 indent_style = space
 indent_size = 2
 

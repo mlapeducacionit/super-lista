@@ -3,15 +3,12 @@
 /* ------------------ */
 
 let listaProductos = [
-  {nombre: 'Carne', cantidad: 2, precio: 12.34}, // 0
-  {nombre: 'Pan', cantidad: 1, precio: 20.45}, // 1
-  {nombre: 'Fideos', cantidad: 3, precio: 45.87},
-  {nombre: 'Leche', cantidad: 5, precio: 31.86},
-  {nombre: 'Yogurt', cantidad: 1, precio: 16.45},
+  { id: 1, nombre: 'Carne', cantidad: 2, precio: 12.34}, // 0
+  { id: 2, nombre: 'Pan', cantidad: 1, precio: 20.45}, // 1
+  { id: 3, nombre: 'Fideos', cantidad: 3, precio: 45.87},
+  { id: 4, nombre: 'Leche', cantidad: 5, precio: 31.86},
+  { id: 5, nombre: 'Yogurt', cantidad: 1, precio: 16.45},
 ];
-
-let crearLista = true; // bandera
-let ul;
 
 /* ------------------ */
 /* FUNCIONES GLOBALES */
@@ -19,7 +16,9 @@ let ul;
 
 function borrarProd(indice) {
   console.log('borrarProd', indice);
-  listaProductos.splice(indice, 1);
+  let posicion = listaProductos.findIndex((producto) => producto.id === indice)
+  // console.log(posicion)
+  listaProductos.splice(posicion, 1);
   renderLista();
 }
 
@@ -44,62 +43,46 @@ function cambiarPrecio(indice, elemento) {
 function renderLista() {
   console.log('Render Lista...');
 
-  if (crearLista) {
-    ul = document.createElement('ul'); /* Creo un ul dinamicamente */
-    ul.classList.add('demo-list-icon', 'mdl-list', 'w-100'); // Agrego las clases
-    console.log(ul);
-  }
+  /* petición asincronica a la plantilla-lista.hbs */
 
-  ul.innerHTML = '';
+  let data = fetch('plantilla-lista.hbs')
+  // console.log(data)
 
-  listaProductos.forEach((prod, index) => {
-    console.log(prod);
-    console.log(index);
-    ul.innerHTML += `
-        
-            <li class="mdl-list__item">
+  data
+    .then( res => {
+      // console.log(res) // Objeto Response
+      return res.text()
+    })
+    .then( plantilla => {
+      // console.log(plantilla) // el string del contenido del archivo
 
-                <!-- Icono de producto -->
-                <span class="mdl-list__item-primary-content w-10">
-                    <i class="material-icons mdl-list__item-icon">shopping_cart</i>
-                </span>
-            
-                <!-- Nombre de producto -->
-                <span class="mdl-list__item-primary-content w-30">
-                ${prod.nombre}
-                </span>
+      /* --------------- compilar la plantilla --------------- */
+      let template = Handlebars.compile(plantilla)
+      console.log(template)
 
-                <!-- Cantidad del producto -->
-                <span class="mdl-list__item-primary-content w-20">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input onchange="cambiarCantidad(${index}, this)" class="mdl-textfield__input" type="text" id="cantidad-${index}" value="${prod.cantidad}">
-                    <label class="mdl-textfield__label" for="cantidad-${index}">Cantidad</label>
-                </div>
-                </span>
-                
-                <!-- Precio del producto -->
-                <span class="mdl-list__item-primary-content w-20 ml-item">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input onchange="cambiarPrecio(${index}, this)" class="mdl-textfield__input" type="text" id="precio-${index}" value="${prod.precio}">
-                    <label class="mdl-textfield__label" for="precio-${index}">Precio</label>
-                </div>
-                </span>
+      /* ------ Ejecuto el template */
+      let html = template({listaProductos}) /* Necesito pasarle al template un objeto */
 
-                <!-- Acción (borrar producto) -->
-                <span class="mdl-list__item-primary-content w-20 ml-item">
-                <button onclick="borrarProd(${index})" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-                    <i class="material-icons">remove_shopping_cart</i>
-                </button>
-                </span>
-            </li>
-        `;
-  });
+      //console.log(html)
 
-  if (crearLista) {
+      /* ------ Inyecto el string generado dentro del DOM. ------ */
+      document.getElementById('lista').innerHTML = html
+
+      /* Me refresca las librería materia lite */
+      let ul = document.querySelector('#contenedor-lista')
+      componentHandler.upgradeElements(ul);
+
+    })
+    .catch( (error) => {
+      console.error(error)
+    })
+
+
+  /* if (crearLista) {
     document.getElementById('lista').appendChild(ul);
   } else {
-    componentHandler.upgradeElements(ul);
-  }
+    
+  } */
 
   crearLista = false;
 }
