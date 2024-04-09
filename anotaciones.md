@@ -38,3 +38,13 @@ npm run preview
 Es un archivo JSON de configuración de nuestra PWA
 
 <https://developer.mozilla.org/es/docs/Web/Manifest>
+
+## EditorConfig
+
+ID: EditorConfig.EditorConfig
+
+<https://editorconfig.org/>
+
+## Prettier
+
+
