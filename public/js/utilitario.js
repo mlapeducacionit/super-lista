@@ -22,22 +22,14 @@ function borrarProd(indice) {
   renderLista();
 }
 
-function cambiarCantidad(indice, elemento) {
-  console.log(indice);
-  console.dir(elemento);
-  let cantidad = parseInt(elemento.value);
-  console.log('cambiarCantidad', indice, cantidad);
-  listaProductos[indice].cantidad = cantidad;
-  console.log(listaProductos);
-}
+function cambiarValor(tipo, id, elemento) {
 
-function cambiarPrecio(indice, elemento) {
-  console.log(indice);
-  console.dir(elemento);
-  let precio = Number(elemento.value);
-  console.log('cambiarCantidad', indice, precio);
-  listaProductos[indice].precio = precio;
-  console.log(listaProductos);
+  let index = listaProductos.findIndex(prod => prod.id === id)
+  let valor = tipo === 'precio' ? Number(elemento.value) : parseInt(elemento.value)
+  console.log('cambiarValor', tipo, index, valor)
+
+  listaProductos[index][tipo] = valor
+
 }
 
 function renderLista() {

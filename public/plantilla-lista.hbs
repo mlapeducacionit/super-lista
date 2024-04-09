@@ -16,7 +16,7 @@
     <span class='mdl-list__item-primary-content w-20'>
       <div class='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
         <input
-          onchange='cambiarCantidad({{this.id}}, this)'
+          onchange='cambiarValor("cantidad", {{this.id}}, this)'
           class='mdl-textfield__input'
           type='text'
           id='cantidad-{{this.id}}'
@@ -33,7 +33,7 @@
     <span class='mdl-list__item-primary-content w-20 ml-item'>
       <div class='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
         <input
-          onchange='cambiarPrecio({{this.id}}, this)'
+          onchange='cambiarValor("precio", {{this.id}}, this)'
           class='mdl-textfield__input'
           type='text'
           id='precio-{{this.id}}'
