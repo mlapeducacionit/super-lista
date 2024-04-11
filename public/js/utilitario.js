@@ -14,22 +14,31 @@ let listaProductos = [
 /* FUNCIONES GLOBALES */
 /* ------------------ */
 
-function borrarProd(indice) {
-  console.log('borrarProd', indice);
-  let posicion = listaProductos.findIndex((producto) => producto.id === indice)
-  // console.log(posicion)
-  listaProductos.splice(posicion, 1);
-  renderLista();
+async function borrarProd(id) {
+  try {
+    // console.log('borrarProd', id);
+    await apiProd.del(id);
+    renderLista();
+  } catch (error) {
+    console.log('[borrarProd]', error);
+  }
 }
 
-function cambiarValor(tipo, id, elemento) {
+async function cambiarValor(tipo, id, elemento) {
+  try {
+    let index = listaProductos.findIndex((prod) => Number(prod.id) === id);
+    let valor =
+      tipo === 'precio' ? Number(elemento.value) : parseInt(elemento.value);
+    console.log('cambiarValor', tipo, index, valor);
 
-  let index = listaProductos.findIndex(prod => prod.id === id)
-  let valor = tipo === 'precio' ? Number(elemento.value) : parseInt(elemento.value)
-  console.log('cambiarValor', tipo, index, valor)
+    listaProductos[index][tipo] = valor;
 
-  listaProductos[index][tipo] = valor
+    let prod = listaProductos[index];
 
+    await apiProd.put(prod, id);
+  } catch (error) {
+    console.log('[cambiarValor]', error);
+  }
 }
 
 function renderLista() {
@@ -37,52 +46,49 @@ function renderLista() {
 
   /* petición asincronica a la plantilla-lista.hbs */
 
-  let data = fetch('plantilla-lista.hbs')
+  let data = fetch('plantilla-lista.hbs');
   // console.log(data)
 
   data
-    .then( res => {
+    .then((res) => {
       // console.log(res) // Objeto Response
-      return res.text()
+      return res.text();
     })
-    .then( async plantilla => {
+    .then(async (plantilla) => {
       // console.log(plantilla) // el string del contenido del archivo
 
       /* --------------- compilar la plantilla --------------- */
-      let template = Handlebars.compile(plantilla)
-      console.log(template)
+      let template = Handlebars.compile(plantilla);
+      console.log(template);
 
       /* --------------------------------------------- */
       /* Obtener la lista de productos del back        */
       /* --------------------------------------------- */
-      listaProductos = await apiProd.get()
+      listaProductos = await apiProd.get();
 
       /* ------ Ejecuto el template */
-      let html = template({listaProductos}) /* Necesito pasarle al template un objeto */
+      let html = template({
+        listaProductos,
+      }); /* Necesito pasarle al template un objeto */
 
       //console.log(html)
 
       /* ------ Inyecto el string generado dentro del DOM. ------ */
-      document.getElementById('lista').innerHTML = html
+      document.getElementById('lista').innerHTML = html;
 
       /* Me refresca las librería materia lite */
       //let ul = document.querySelector('#contenedor-lista')
-      let ul = $('#contenedor-lista')
+      let ul = $('#contenedor-lista');
       componentHandler.upgradeElements(ul);
-
     })
-    .catch( (error) => {
-      console.error(error)
-    })
-
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 /* --------- */
 /* LISTENERS */
 /* --------- */
-
-
-
 
 function configurarListener() {
   /* Ingreso del producto nuevo */
