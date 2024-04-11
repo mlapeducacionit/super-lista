@@ -91,11 +91,13 @@ function renderLista() {
 /* --------- */
 
 function configurarListener() {
-  /* Ingreso del producto nuevo */
+
+  // ! Ingreso del producto nuevo 
+
   const entradaProducto = document.getElementById('btn-entrada-producto');
   //console.log(entradaProducto)
 
-  entradaProducto.addEventListener('click', () => {
+  entradaProducto.addEventListener('click', async () => {
     console.log('btn-entrada-producto');
 
     let input = document.getElementById('ingreso-producto');
@@ -103,19 +105,24 @@ function configurarListener() {
     let producto = input.value; /* value -> lo que escribió el usuario */
     console.log(producto);
 
+   try {
     if (producto) {
       const objProdu = {
         nombre: producto,
         cantidad: 1,
         precio: 0,
       };
-      listaProductos.push(objProdu);
+      await apiProd.post(objProdu)
+      // listaProductos.push(objProdu);
       renderLista();
       input.value = null;
     }
+   } catch (error) {
+    console.error('Ingreso del producto nuevo', error)
+   }
   });
 
-  /* Borrado total de productos */
+  // ! Borrado total de productos 
 
   const btnBorrarProductos = document.getElementById('btn-borrar-productos');
   console.log(btnBorrarProductos);
