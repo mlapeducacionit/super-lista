@@ -1,4 +1,4 @@
-const apiProd = (() => {
+import $ from 'jquery'
 
   function getUrl(id) {
     // return 'https://615d8b5212571a00172076ba.mockapi.io/productos/' + (id ? id : '')
@@ -8,7 +8,7 @@ const apiProd = (() => {
   /* CRUD -> C:CREATE - R:READ - U:UPDATE - D:DELETE */
 
   /* CRUD -> R:READ */
-  async function get() {
+  export async function get() {
 
     try {
       let productos = await $.ajax({url: getUrl()}) // Método GET
@@ -22,7 +22,7 @@ const apiProd = (() => {
   }
 
   /* CRUD -> C:CREATE */
-  async function post(prod) {
+  export async function post(prod) {
 
     try {
       return await $.ajax({url: getUrl(), method: 'post', data: prod })  
@@ -34,7 +34,7 @@ const apiProd = (() => {
   }
 
   /* CRUD -> U:UPDATE */
-  async function put(prod, id) {
+  export async function put(prod, id) {
     
     try {
       return await $.ajax({url: getUrl(id), method: 'put', data: prod})
@@ -46,7 +46,7 @@ const apiProd = (() => {
   }
 
   /* CRUD -> D:DELETE */
-  async function del(id) {
+  export async function del(id) {
     try {
       return await $.ajax({url: getUrl(id), method: 'delete'})
     } catch (error) {
@@ -55,7 +55,7 @@ const apiProd = (() => {
     }
   }
 
-  async function deleteAll(listaProd) {
+  export async function deleteAll(listaProd) {
     
     let progress = document.querySelector('progress')
     progress.style.display = 'block'
@@ -85,12 +85,4 @@ const apiProd = (() => {
 
   }
 
-  return {
-    get: () => get(),
-    post: producto => post(producto),
-    put: (producto, id) => put(producto, id),
-    del: (id) => del(id),
-    deleteAll: listaProductos => deleteAll(listaProductos)
-  }
 
-})() // IIFE (Función autoejecutada)
