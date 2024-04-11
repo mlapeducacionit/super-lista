@@ -3,11 +3,11 @@
 /* ------------------ */
 
 let listaProductos = [
-  { id: 1, nombre: 'Carne', cantidad: 2, precio: 12.34}, // 0
+  /* { id: 1, nombre: 'Carne', cantidad: 2, precio: 12.34}, // 0
   { id: 2, nombre: 'Pan', cantidad: 1, precio: 20.45}, // 1
   { id: 3, nombre: 'Fideos', cantidad: 3, precio: 45.87},
   { id: 4, nombre: 'Leche', cantidad: 5, precio: 31.86},
-  { id: 5, nombre: 'Yogurt', cantidad: 1, precio: 16.45},
+  { id: 5, nombre: 'Yogurt', cantidad: 1, precio: 16.45}, */
 ];
 
 /* ------------------ */
@@ -45,12 +45,17 @@ function renderLista() {
       // console.log(res) // Objeto Response
       return res.text()
     })
-    .then( plantilla => {
+    .then( async plantilla => {
       // console.log(plantilla) // el string del contenido del archivo
 
       /* --------------- compilar la plantilla --------------- */
       let template = Handlebars.compile(plantilla)
       console.log(template)
+
+      /* --------------------------------------------- */
+      /* Obtener la lista de productos del back        */
+      /* --------------------------------------------- */
+      listaProductos = await apiProd.get()
 
       /* ------ Ejecuto el template */
       let html = template({listaProductos}) /* Necesito pasarle al template un objeto */
@@ -61,7 +66,8 @@ function renderLista() {
       document.getElementById('lista').innerHTML = html
 
       /* Me refresca las librería materia lite */
-      let ul = document.querySelector('#contenedor-lista')
+      //let ul = document.querySelector('#contenedor-lista')
+      let ul = $('#contenedor-lista')
       componentHandler.upgradeElements(ul);
 
     })
@@ -69,19 +75,14 @@ function renderLista() {
       console.error(error)
     })
 
-
-  /* if (crearLista) {
-    document.getElementById('lista').appendChild(ul);
-  } else {
-    
-  } */
-
-  crearLista = false;
 }
 
 /* --------- */
 /* LISTENERS */
 /* --------- */
+
+
+
 
 function configurarListener() {
   /* Ingreso del producto nuevo */
