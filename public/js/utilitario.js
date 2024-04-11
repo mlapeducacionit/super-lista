@@ -127,13 +127,19 @@ function configurarListener() {
   const btnBorrarProductos = document.getElementById('btn-borrar-productos');
   console.log(btnBorrarProductos);
 
-  btnBorrarProductos.addEventListener('click', () => {
+  btnBorrarProductos.addEventListener('click', async () => {
     console.log('btn-borrar-productos');
 
     const resultado = confirm('¿Desea borrar todos los productos?');
     if (resultado) {
-      listaProductos = [];
-      renderLista();
+      // listaProductos = [];
+      try {
+        await apiProd.deleteAll(listaProductos)
+        renderLista();
+      } catch (error) {
+        console.log('Borrado total de productos', error)
+      }
+      
     } else {
       console.log('No borró ningún producto');
     }
