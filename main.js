@@ -2,7 +2,7 @@ import './style.css'
 import Handlebars from 'handlebars'
 import $ from 'jquery'
 
-import { del, get, put } from './src/handleApi';
+import { del, deleteAll, get, post, put } from './src/handleApi';
 
 /* ------------------ */
 /* VARIABLES GLOBALES */
@@ -27,23 +27,6 @@ async function borrarProd(id) {
     renderLista();
   } catch (error) {
     console.log('[borrarProd]', error);
-  }
-}
-
-async function cambiarValor(tipo, id, elemento) {
-  try {
-    let index = listaProductos.findIndex((prod) => Number(prod.id) === id);
-    let valor =
-      tipo === 'precio' ? Number(elemento.value) : parseInt(elemento.value);
-    console.log('cambiarValor', tipo, index, valor);
-
-    listaProductos[index][tipo] = valor;
-
-    let prod = listaProductos[index];
-
-    await apiProd.put(prod, id);
-  } catch (error) {
-    console.log('[cambiarValor]', error);
   }
 }
 
@@ -118,7 +101,7 @@ function configurarListener() {
         cantidad: 1,
         precio: 0,
       };
-      await apiProd.post(objProdu)
+      await post(objProdu)
       // listaProductos.push(objProdu);
       renderLista();
       input.value = null;
@@ -140,7 +123,7 @@ function configurarListener() {
     if (resultado) {
       // listaProductos = [];
       try {
-        await apiProd.deleteAll(listaProductos)
+        await deleteAll(listaProductos)
         renderLista();
       } catch (error) {
         console.log('Borrado total de productos', error)
