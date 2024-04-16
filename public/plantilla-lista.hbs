@@ -16,11 +16,12 @@
     <span class='mdl-list__item-primary-content w-20'>
       <div class='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
         <input
-          onchange='cambiarValor("cantidad", {{this.id}}, this)'
-          class='mdl-textfield__input'
+          class='cambiar-cantidad mdl-textfield__input'
           type='text'
           id='cantidad-{{this.id}}'
           value='{{this.cantidad}}'
+          data-id="{{this.id}}"
+          data-valor="cantidad"
         />
         <label
           class='mdl-textfield__label'
@@ -33,11 +34,12 @@
     <span class='mdl-list__item-primary-content w-20 ml-item'>
       <div class='mdl-textfield mdl-js-textfield mdl-textfield--floating-label'>
         <input
-          onchange='cambiarValor("precio", {{this.id}}, this)'
-          class='mdl-textfield__input'
+          class='cambiar-precio mdl-textfield__input'
           type='text'
           id='precio-{{this.id}}'
           value='{{this.precio}}'
+          data-id="{{this.id}}"
+          data-valor="precio"
         />
         <label class='mdl-textfield__label' for='precio-{{this.id}}'>Precio</label>
       </div>
@@ -46,8 +48,8 @@
     <!-- Acción (borrar producto) -->
     <span class='mdl-list__item-primary-content w-20 ml-item'>
       <button
-        onclick='borrarProd({{this.id}})'
-        class='mdl-button mdl-js-button mdl-button--fab mdl-button--colored'
+        class='btn-delete mdl-button mdl-js-button mdl-button--fab mdl-button--colored'
+        data-id="{{this.id}}"
       >
         <i class='material-icons'>remove_shopping_cart</i>
       </button>

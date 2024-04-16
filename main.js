@@ -2,7 +2,7 @@ import './style.css'
 import Handlebars from 'handlebars'
 import $ from 'jquery'
 
-import { get } from './src/handleApi';
+import { del, get, put } from './src/handleApi';
 
 /* ------------------ */
 /* VARIABLES GLOBALES */
@@ -23,7 +23,7 @@ let listaProductos = [
 async function borrarProd(id) {
   try {
     // console.log('borrarProd', id);
-    await apiProd.del(id);
+    await del(id);
     renderLista();
   } catch (error) {
     console.log('[borrarProd]', error);
@@ -150,6 +150,52 @@ function configurarListener() {
       console.log('No borró ningún producto');
     }
   });
+
+  // ! Borrado de un producto
+  const lista = document.querySelector('#lista')
+  console.log(lista)
+
+  lista.addEventListener('click', e => { // e, evt, evento, event
+    //console.log(e.target) // <- a que elemento le hice click
+    if (e.target.classList.contains('btn-delete')) {
+      //console.log('BTN')
+      borrarProd(e.target.dataset.id)
+    }
+
+    if (e.target.classList.contains('material-icons')) {
+      //console.log('Icono')
+      borrarProd(e.target.parentElement.dataset.id)
+    }
+  })
+
+  // ! Cambiar Valor
+  lista.addEventListener('change', async e => {
+    // console.log('change')
+    const elemento = e.target
+    // console.log(elemento)
+
+    if ( elemento.classList.contains('cambiar-cantidad') || elemento.classList.contains('cambiar-precio')) {
+      const id = elemento.dataset.id
+      const valor = elemento.dataset.valor
+      // console.log(valor) // 'cantidad' o 'precio'
+      // console.log(elemento.value)
+      let dato = valor === 'cantidad' ? parseInt(elemento.value) : Number(elemento.value)
+      // console.log(dato)
+      const index = listaProductos.findIndex(prod => prod.id == id)
+
+      listaProductos[index][valor] = dato 
+
+      let productoEditado = listaProductos[index]
+      // console.log(productoEditado)
+
+      await put(productoEditado, id)
+    }
+
+  })  
+
+
+
+
 }
 
 /* -------------------------- */

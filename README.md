@@ -28,3 +28,7 @@
 
 ![diagrama-sw](_ref/Service-Worker03.png)
 
+## Versionado semantico
+
+<https://semver.org/lang/es/>
+
