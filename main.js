@@ -176,9 +176,6 @@ function configurarListener() {
 
   })  
 
-
-
-
 }
 
 /* -------------------------- */
@@ -203,11 +200,103 @@ function registrarServiceWorker() {
   }
 }
 
+/* ----------------------------------------------------------- */
+/* TEST CACHE (Service Worker)                                 */
+/* ----------------------------------------------------------- */
+// https://developer.mozilla.org/en-US/docs/Web/API/Cache
+
+function testCache() {
+  console.warn('Test CACHE');
+
+  if ( window.caches ) {
+    console.log('El navegador actual soporta CACHES')
+
+    // ! Creo un espacio de cache open()
+    caches.open('prueba-1')
+    caches.open('prueba-2')
+    caches.open('prueba-3')
+    caches.open('prueba-4')
+
+    // ! Comprobamos si un espacio de cache existe -> has() | Devuelve una promesa 
+
+    console.log(caches.has('prueba-2')) // devuelve una promesa
+
+    caches.has('prueba-2').then(resultado => console.log('prueba-2:', resultado)) // si existe -> true de lo contrario false
+    caches.has('prueba-5').then(resultado => console.log('prueba-5:', resultado)) // si existe -> true de lo contrario false
+    
+    // ! Borrado de un espacio de cache 
+    caches.delete('prueba-2')
+    caches.has('prueba-2').then(resultado => console.log('prueba-2:', resultado)) // si existe -> true de lo contrario false
+
+    // ! Listo todos los espacios de caches -> keys()
+
+    // caches.keys().then(espacios => console.log(espacios)).catch(error => console.error(error))
+    caches.keys().then(console.log).catch(console.error)
+
+    /* ---------------------------------------------------------- */
+    /* Abro un espacio de cache y trabajo con ese espacio         */
+    /* ---------------------------------------------------------- */
+
+    caches.open('cache-v1.1').then( cache => {
+      console.log(cache) // CACHE DISPONIBLE
+      //console.log(caches) // CACHES STORAGE
+
+      // ! Agrego un recurso a la cache -> add()
+
+      cache.add('./index.html')
+
+      // ! Agrego varios recurso a la cache -> addAll()
+      /* Al addAll le tengo que pasar un array de archivos ['archivo1.js', 'archivo2.html'] */
+
+      cache.addAll([
+        './src/handleApi.js',
+        './style.css',
+        './images/icon-72x72.png'
+      ]).then(() => {
+        console.log('Recursos agregados')
+      }).catch((err) => {
+        console.error('No hay espacio en disco')
+      })
+
+      // ! Borrar un recurso de la cache -> delete()
+
+      cache.delete('./style.css').then(console.warn)
+
+      // ! Buscar un recurso dentro de la cache -> match()
+
+      cache.match('./style.css').then(respuesta => {
+        if ( respuesta ) {
+          console.log('Recurso encontrado')
+          //console.log(respuesta)
+        } else {
+          console.error('Recurso inexistente')
+        }
+      })
+
+      // ! Crear o modificar el contenido de un recurso
+
+      cache.put('./index.html', new Response('Hola mundo!'))
+
+      // ! Listar todos los recursos que contiene la cache
+
+      
+
+
+
+    })
+    
+
+  } else {
+    console.error('El navegador no soporta CACHES')
+  }
+}
+
 function start() {
   console.log('Arracando la aplicación');
 
   registrarServiceWorker();
   configurarListener();
+  testCache();
   renderLista();
 }
 
