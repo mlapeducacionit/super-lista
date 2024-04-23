@@ -47,4 +47,17 @@ ID: EditorConfig.EditorConfig
 
 ## Prettier
 
+## Workbox (Librería de Google para el trabajo con SW)
+
+<https://developer.chrome.com/docs/workbox?hl=es-419>
+
+## PWA vite plugin
+
+<https://vite-pwa-org.netlify.app/>
+
+## https locahost (Nos permite crear un servidor con protocolo ssl)
+
+<https://www.npmjs.com/package/https-localhost>
+
+
 

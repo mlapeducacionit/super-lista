@@ -294,9 +294,9 @@ function testCache() {
 function start() {
   console.log('Arracando la aplicación');
 
-  registrarServiceWorker();
+  //registrarServiceWorker();
   configurarListener();
-  testCache();
+  //testCache();
   renderLista();
 }
 
